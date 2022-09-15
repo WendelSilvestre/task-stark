@@ -59,18 +59,18 @@ starkbank.user = user;
 //}
 
 
-// function transfer(){
+// function transfer(amount){
 //     const starkbank = require('starkbank');
 
 // (async() => {
 //     let transfers = await starkbank.transfer.create([
 //         {
-//             amount: 1000000,
-//             bankCode: '033',
+//             amount: amount,
+//             bankCode: '20018183',
 //             branchCode: '0001',
-//             accountNumber: '10000-0',
-//             taxId: '276.685.415-00',
-//             name: 'Tony Stark',
+//             accountNumber: '6341320293482496',
+//             taxId: '20.018.183/0001-80',
+//             name: 'Stark Bank S.A.',
 //             externalId: 'my-external-id',
 //             scheduled: '2020-08-14',
 //             tags: ['iron', 'suit']

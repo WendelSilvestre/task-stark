@@ -20,7 +20,11 @@ const handler =  (req: NextApiRequest, res: NextApiResponse) => {
 
         data.push({body})
 
-
+        if (body.event.log.invoice.status == "credited") {
+          const amount = body.event.log.invoice.amount
+          //get amount e diminuir taxas
+          //chamar a requisição da API transfer(amount)
+        }
         console.log(body.event.log.invoice)
         return res.status(200).json([data])
         
