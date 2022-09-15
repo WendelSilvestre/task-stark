@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
+require('dotenv').config({path: __dirname + '/.env'})
 
 const IndexPage = () => (
   <Layout title="Home | Next.js + TypeScript Example">
