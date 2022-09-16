@@ -1,11 +1,5 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
-require('dotenv').config({path: __dirname + '/.env'})
-
-
-// const stark = require('../utils/starkBankUtils.Js')
-
-// console.log(stark.add())
 
 
 const IndexPage = () => (
@@ -15,8 +9,11 @@ const IndexPage = () => (
       <Link href="/about">
         <a>About</a>
       </Link>
+      <a href="../api/cron.ts">
+        Teste
+      </a>
     </p>
   </Layout>
 )
 
-//export default IndexPage
+export default IndexPage
