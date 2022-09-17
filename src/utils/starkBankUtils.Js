@@ -13,33 +13,40 @@ starkbank.user = user;
 
 function inVoiceCreate(){
 
+    const quantity = getRandomInt(8, 12)
 
-(async() => {
-    let invoices = await starkbank.invoice.create([{
-        amount: 400000,
-        taxId: '012.345.678-90',
-        name: 'Jon Snow',
-        expiration: 123456789,
-        fine: 2.5,
-        interest: 1.3,
-        tags: ['War supply', 'Invoice #1234'],
-        descriptions: [
-            {
-                'key': 'Field1',
-                'value': 'Something'
+    const names = ['Pam Beasley', 'Michael Scott', 'Dwight Schrute', 'Andy Bernard',
+                    'Phyllis Vance', 'Stanley Hudson', 'Meredith Palmer', 'Gabe Lewis', 'Jo Benett'];
+
+    for(let i = 0; i < quantity; i++) {
+        (async() => {
+            let invoices = await starkbank.invoice.create([{
+                amount: 800000,
+                taxId: '012.345.678-90',
+                name: names[getRandomInt(0, 8)],
+                expiration: 5097600,
+                fine: 2.5,
+                interest: 1.3,
+                tags: ['Paper for Company Dunder-Mifflin', 'Invoice #1234'],
+                descriptions: [
+                    {
+                        'key': 'Paper',
+                        'value': 'R$4000,00'
+                    },
+                    {
+                        'key': 'Saber Printers',
+                        'value': 'R$4000,00'
+                    }
+                ]
+            }]);
+    
+            for (let invoice of invoices) {
+                console.log(invoice);
             }
-        ]
-    }]);
-
-    for (let invoice of invoices) {
-        console.log(invoice);
+        })();
     }
-})();
 
 }
-
-module.exports = { inVoiceCreate, transfer };
-
 
 function transfer(amount){
 
@@ -60,3 +67,26 @@ function transfer(amount){
     }
 })();
 }
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function invoiceLogs(){
+    let cont = 0;
+
+    return (async() => {
+        let invoices = await starkbank.invoice.query({
+            after: '2022-09-16',
+            before: '2022-10-01',
+        });
+
+        for await (let invoice of invoices) {
+            cont++
+        }
+        
+    })();
+}
+
+
+module.exports = { inVoiceCreate, transfer, invoiceLogs };

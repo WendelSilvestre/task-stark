@@ -10,6 +10,9 @@ const handler =  (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (req.method) {
       case 'GET':
+        const log = stark.invoiceLogs()
+        console.log("Teste" + log)
+        data.push({log})
         res.status(200).json({data})
         break
       case 'POST':
@@ -21,14 +24,13 @@ const handler =  (req: NextApiRequest, res: NextApiResponse) => {
 
         data.push({body})
 
-        if (body.event.log.invoice.status == "paid") {
+        if (body.event.log.type == "credited") {
           const amount = body.event.log.invoice.amount
           //get amount e diminuir taxas
 
           console.log(stark.transfer(amount))
-          //chamar a requisição da API transfer(amount)
         }
-        console.log(body.event.log.invoice)
+        console.log(body.event.log)
         return res.status(200).json([data])
         
         break
