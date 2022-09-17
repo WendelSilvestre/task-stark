@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-const stark = require('../utils/starkBankUtils.Js')  
+const stark = require('../../utils/starkBankUtils.js')
 
 const handler =  (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -21,9 +21,11 @@ const handler =  (req: NextApiRequest, res: NextApiResponse) => {
 
         data.push({body})
 
-        if (body.event.log.invoice.status == "credited") {
+        if (body.event.log.invoice.status == "paid") {
           const amount = body.event.log.invoice.amount
           //get amount e diminuir taxas
+
+          console.log(stark.transfer(amount))
           //chamar a requisição da API transfer(amount)
         }
         console.log(body.event.log.invoice)
