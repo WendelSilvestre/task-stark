@@ -3,16 +3,11 @@ import stark from '../../utils/starkBankUtils'
 
 const handler  = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-
-    let data = [
-      {}
-    ]
-
     switch (req.method) {
       case 'GET':
-        const log = await stark.invoiceLogs()
-        data.push({log})
-        res.status(200).json({data})
+        const invoices = await stark.invoiceLogs()
+        
+        res.status(200).json({invoices})
         break
       case 'POST':
         const body = req.body;
@@ -20,8 +15,6 @@ const handler  = async (req: NextApiRequest, res: NextApiResponse) => {
         if (body === ""){
           return res.status(400).json({mensagem: "Sem dados de inVoices"})
         }
-
-        data.push({body})
 
         if (body.event.log.type == "credited") {
           let amount = body.event.log.invoice.amount
@@ -32,7 +25,7 @@ const handler  = async (req: NextApiRequest, res: NextApiResponse) => {
           console.log(stark.transfer(amount))
         }
         console.log(body.event.log)
-        return res.status(200).json([data])
+        return res.status(200).json(body)
         
         break
       default:

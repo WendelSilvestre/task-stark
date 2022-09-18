@@ -77,34 +77,21 @@ function getRandomInt(min, max) {
 }
 
 async function invoiceLogs(){
-    let contTotal = 0;
-    let contCredited = 0;
-    let contPendent = 0;
+    let invoices = []
+    let cursor = null;
+    let page = null;
 
-    let invoices = await starkbank.invoice.query({
-        after: '2022-09-16',
-        before: '2022-10-01',
-    });
-
-    for await (let invoice of invoices) {
-        contTotal++
+    while (true) {
+        [page, cursor] = await starkbank.invoice.page({ limit: 100, cursor: cursor });
+        for (let invoice of page) {
+            invoices.push(invoice)
+        }
+        if (cursor == null) {
+            break;
+        }
     }
 
-    let invoicesPaid = await starkbank.invoice.query({
-        after: '2022-09-16',
-        before: '2022-10-01',
-        status: "created"
-    });
-
-    for await (let invoicesPaid of invoices) {
-        contCredited++
-    }
-
-    contPendent = contTotal - contCredited;
-
-    console.log("Total: " + contTotal + "\nPagos: " + contCredited + "\nPendentes: " + contPendent )
-    return contTotal
-        
+    return invoices
 }
 
 export default {inVoiceCreate, transfer, invoiceLogs }
