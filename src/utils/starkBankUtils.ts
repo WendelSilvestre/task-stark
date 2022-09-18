@@ -1,4 +1,4 @@
-const starkbank = require('starkbank');
+import starkbank from 'starkbank';
 
 let privateKeyContent =  process.env.PRIVATE_KEY_STARK
 
@@ -18,12 +18,16 @@ function inVoiceCreate(){
     const names = ['Pam Beasley', 'Michael Scott', 'Dwight Schrute', 'Andy Bernard',
                     'Phyllis Vance', 'Stanley Hudson', 'Meredith Palmer', 'Gabe Lewis', 'Jo Benett'];
 
+    const CNPJ = ['26.587.914/0001-94', '87.616.045/0001-73', '77.582.605/0001-62', '92.857.748/0001-23',
+                    '18.606.277/0001-28', '66.032.216/0001-47', '67.582.551/0001-81', '50.440.783/0001-00', '19.738.777/0001-86' ]
+
     for(let i = 0; i < quantity; i++) {
         (async() => {
+            const random = getRandomInt(0, 8)
             let invoices = await starkbank.invoice.create([{
-                amount: 800000,
-                taxId: '012.345.678-90',
-                name: names[getRandomInt(0, 8)],
+                amount: getRandomInt(200000, 500000),
+                taxId: CNPJ[random],
+                name: names[random],
                 expiration: 5097600,
                 fine: 2.5,
                 interest: 1.3,
@@ -72,21 +76,35 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function invoiceLogs(){
-    let cont = 0;
+async function invoiceLogs(){
+    let contTotal = 0;
+    let contCredited = 0;
+    let contPendent = 0;
 
-    return (async() => {
-        let invoices = await starkbank.invoice.query({
-            after: '2022-09-16',
-            before: '2022-10-01',
-        });
+    let invoices = await starkbank.invoice.query({
+        after: '2022-09-16',
+        before: '2022-10-01',
+    });
 
-        for await (let invoice of invoices) {
-            cont++
-        }
+    for await (let invoice of invoices) {
+        contTotal++
+    }
+
+    let invoicesPaid = await starkbank.invoice.query({
+        after: '2022-09-16',
+        before: '2022-10-01',
+        status: "created"
+    });
+
+    for await (let invoicesPaid of invoices) {
+        contCredited++
+    }
+
+    contPendent = contTotal - contCredited;
+
+    console.log("Total: " + contTotal + "\nPagos: " + contCredited + "\nPendentes: " + contPendent )
+    return contTotal
         
-    })();
 }
 
-
-module.exports = { inVoiceCreate, transfer, invoiceLogs };
+export default {inVoiceCreate, transfer, invoiceLogs }

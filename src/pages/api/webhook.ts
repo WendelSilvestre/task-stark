@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-const stark = require('../../utils/starkBankUtils.js')
+import stark from '../../utils/starkBankUtils'
 
-const handler =  (req: NextApiRequest, res: NextApiResponse) => {
+const handler  = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
 
     let data = [
@@ -10,8 +10,7 @@ const handler =  (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (req.method) {
       case 'GET':
-        const log = stark.invoiceLogs()
-        console.log("Teste" + log)
+        const log = await stark.invoiceLogs()
         data.push({log})
         res.status(200).json({data})
         break
@@ -25,8 +24,10 @@ const handler =  (req: NextApiRequest, res: NextApiResponse) => {
         data.push({body})
 
         if (body.event.log.type == "credited") {
-          const amount = body.event.log.invoice.amount
-          //get amount e diminuir taxas
+          let amount = body.event.log.invoice.amount
+          const fee = body.event.log.invoice.fee
+
+          amount += amount/100 * fee
 
           console.log(stark.transfer(amount))
         }

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-const stark = require('../../utils/starkBankUtils.js')
+import stark from '../../utils/starkBankUtils'
 
 export default async function handler(
   req: NextApiRequest,

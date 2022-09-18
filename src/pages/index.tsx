@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Script from 'next/script'
 import Layout from '../components/Layout'
 
 
@@ -8,14 +9,35 @@ const IndexPage = () => (
     <p>Essa tela tem como principio demonstrar os Logs 
       das requisições feitas na aplicação
     </p>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-      <a href="../api/cron.ts">
-        Teste
-      </a>
-    </p>
+
+    {/* <table>
+      <tr>
+          <th>&nbsp;</th>
+          <th>Pagas</th>
+          <th>Pendentes</th>
+      </tr>
+      <tr>
+          <td>Invoices</td>
+          <td>Valorx</td>
+          <td>ValorxP</td>
+      </tr>
+      <tr>
+          <td>Transferidas</td>
+          <td>ValorYx</td>
+      </tr>
+    </table> 
+
+    function loadLogs() {
+      fetch('/api/webhook')
+      .then(function (response){
+        return response.json();
+      }). then(function(div){
+        const tr = document.createElement('tr');
+        tr.innerHTML = div.tr;
+      })
+    }
+    loadLogs(); */}
+
   </Layout>
 )
 
