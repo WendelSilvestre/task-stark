@@ -54,7 +54,7 @@ class InvoiceList extends React.Component<InvoiceListProps, InvoiceListState>{
     }
 
     async componentDidMount() {
-        const request = await fetch("/api/webhook");
+        const request = await fetch("/api/invoices");
         const response = await request.json();
 
         this.setState({
@@ -96,6 +96,10 @@ class InvoiceList extends React.Component<InvoiceListProps, InvoiceListState>{
         })
     }
 
+    parseDate(date: Date){
+        return `${date.getDate( )}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()} `
+    }
+
     render(): React.ReactNode {
         if (this.state.loaded) {
             return (
@@ -129,8 +133,8 @@ class InvoiceList extends React.Component<InvoiceListProps, InvoiceListState>{
                                             <th scope="row">{invoice.id}</th>
                                             <td>R${Number(invoice.amount / 100).toFixed(2)}</td>
                                             <td>{invoice.name}</td>
-                                            <td>{invoice.created}</td>
-                                            <td>{invoice.due}</td>
+                                            <td>{this.parseDate(new Date(invoice.created))}</td>
+                                            <td>{this.parseDate(new Date(invoice.due))}</td>
                                             <td><span className={`badge rounded-pill bg-${this.getBadgeColor(invoice.status || "")}`}>{invoice.status}</span></td>
                                         </tr>
                                     )

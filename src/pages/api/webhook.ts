@@ -3,13 +3,7 @@ import stark from '../../utils/starkBankUtils'
 
 const handler  = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    switch (req.method) {
-      case 'GET':
-        const invoices = await stark.invoiceLogs()
-        
-        res.status(200).json({invoices})
-        break
-      case 'POST':
+
         const body = req.body;
 
         if (body === ""){
@@ -26,14 +20,7 @@ const handler  = async (req: NextApiRequest, res: NextApiResponse) => {
         }
         console.log(body.event.log)
         return res.status(200).json(body)
-        
-        break
-      default:
-        res.setHeader('Allow', ['GET', 'PUT'])
-        res.status(405).end(`Metodo ${req.method} Nao Permitido`)
-    }
-
-  } catch (err: any) {
+    } catch (err: any) {
     res.status(500).json({ statusCode: 500, message: err.message })
   }
 }
