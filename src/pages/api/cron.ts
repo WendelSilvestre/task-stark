@@ -10,7 +10,7 @@ export default async function handler(
       const { authorization } = req.headers;
 
       if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
-        console.log(stark.inVoiceCreate())
+        stark.inVoiceCreate()
         res.status(200).json({ success: true });
       } else {
         res.status(401).json({ success: false });
