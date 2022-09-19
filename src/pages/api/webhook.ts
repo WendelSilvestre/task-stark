@@ -18,7 +18,6 @@ const handler  = async (req: NextApiRequest, res: NextApiResponse) => {
 
           console.log(stark.transfer(amount))
         }
-        console.log(body.event.log)
         return res.status(200).json(body)
     } catch (err: any) {
     res.status(500).json({ statusCode: 500, message: err.message })
