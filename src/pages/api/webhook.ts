@@ -16,7 +16,7 @@ const handler  = async (req: NextApiRequest, res: NextApiResponse) => {
 
           amount += amount/100 * fee
 
-          console.log(stark.transfer(amount))
+          stark.transfer(amount)
         }
         return res.status(200).json(body)
     } catch (err: any) {
